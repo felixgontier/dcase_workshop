@@ -8,6 +8,9 @@
 \documentclass{article}
 \usepackage{dcase2018,amsmath,graphicx,url,times,booktabs, tabularx}
 \usepackage{bbm}
+
+\usepackage{color}
+\newcommand{\ml}[1]{\textcolor{blue}{ Mathieu : #1}}
 % Example definitions.
 % --------------------
 \def\defeqn{\stackrel{\triangle}{=}}
@@ -17,19 +20,19 @@
 % Title.
 % --------------------
 \title{Towards perceptual soundscape characterization using event detection algorithms}
-     
+
 \name{F\'elix Gontier$^{1}$,
-       Mathieu Lagrange$^{1}$,
+Pierre Aumond$^{3}$
+Mathieu Lagrange$^{1}$,
+       }
+ \secondlinename{
+       Catherine Lavandier$^{2}$,
        Jean-Francois Petiot$^{1}$
        }
- \secondlinename{	  
-       Catherine Lavandier$^{2}$,
-       Pierre Aumond$^{3}$
-       }
        % fixed *.sty to allow names on multiple lines
- \address{$^1$ LS2N, UMR 6004, Ecole Centrale de Nantes, CNRS, 44322 Nantes, France, \{felix.gontier\}@ls2n.fr\\          
-         $^2$ ETIS, UMR 8051, Universit\'e Paris Seine, Universit\'e de Cergy-Pontoise, ENSEA, CNRS, \\ 95000 Cergy-Pontoise, France, \{catherine.lavandier\}@u-cergy.fr\\ 
-         $^3$ UMRAE, Ifsttar, 44341 Bouguenais, France, 
+ \address{$^1$ LS2N, UMR 6004, Ecole Centrale de Nantes, CNRS, 44322 Nantes, France, \{felix.gontier\}@ls2n.fr\\
+         $^2$ ETIS, UMR 8051, Universit\'e Paris Seine, Universit\'e de Cergy-Pontoise, ENSEA, CNRS, \\ 95000 Cergy-Pontoise, France, \{catherine.lavandier\}@u-cergy.fr\\
+         $^3$ UMRAE, Ifsttar, 44341 Bouguenais, France,
          \{pierre.aumond\}@ifsttar.fr\\
   }
 
@@ -55,23 +58,26 @@
 \section{Introduction}
 \label{sec:intro}
 
-The ongoing urbanization process has led to an increase in sound quality concerns. In urban areas the noise has been linked to several health issues including sleep-related troubles as well as heart diseases rates, and is a major cause for city dwellers' annoyance in certain areas. In this context, the 2002/49/CE European directive (CITE) requires that large cities maintain noise maps to facilitate the development of noise reducing plans. These noise maps are mainly based on predictive and propagation models. The studies are often limited to traffic and other transportation sources few physical measurements are used. Furthermore, the models depend on topological data that may be unavailable or undercomplete. The advent of the Internet of Things (IoT) presents an opportunity for the development of large, scalable networks of acoustic sensors. The Characterization of Urban Sound Environments (CENSE) project (CITE) aims at implementing such a network to produce perceptually motivated noise maps.
+The ongoing urbanization process has led to an increase in sound quality concerns. In urban areas the noise has been linked to several health issues including sleep-related troubles as well as heart diseases rates, and is a major cause for city dwellers' annoyance in certain areas. In this context, the 2002/49/CE European directive (CITE) requires that large cities maintain noise maps to facilitate the development of noise reducing plans. These noise maps are mainly based on predictive maps generated using propagation models. The studies are also 1) often limited to traffic and other transportation sources, and 2) few physical measurements are used. Furthermore, the models depend on topological data that may be unavailable or uncomplete. The advent of the Internet of Things (IoT) presents an opportunity for the development of large, scalable networks of acoustic sensors \ml{cite un papier de sonyc et ton papier}. The Characterization of Urban Sound Environments (CENSE) project (CITE) aims at implementing such a network to produce perceptually motivated noise maps.
 
-Introducing perception-related notions such as liveliness or familiarity is necessary to assess the quality of urban soundscapes (CITE). The study of relevant feelings describing the appreciation of soundscapes results in the mapping of perceptual spaces (CITE) which are used as a basis for perceptual experiments. The dimension of pleasantness is increasingly associated with soundscape quality in recent works (CITE).
+Furthermore, introducing perception-related notions such as liveliness or familiarity is necessary to assess the quality of urban soundscapes (CITE). The study of relevant feelings describing the appreciation of soundscapes results in the mapping of perceptual spaces (CITE) which are used as a basis for perceptual experiments. The dimension of pleasantness is increasingly associated with soundscape quality in recent works (CITE).
 
-The traditionally used energetic (sound levels, eg. $L_{Aeq}$) and psychoacoustic (eg. Zwicker's loudness $N$) indicators are not considered sufficient to characterize the perception of a sound scene (CITE). Soundscape pleasantness is on the contrary highly dependent on the composition of the scene (CITE) as each sound source has a different impact, for example the soundscape quality is likely to be improved by birdsongs and deteriorated by construction noises. Several proposals on sets of relevant indicators (CITE) have been published to better account for the specificities of each scene. Though, the established metrics are mostly derived from physical measurements on longer durations or added information such as traffic flow density.
+\ml{reecrire ca par en restant positif et en le liant a celui d'avant. Pour caracteriser le soundscape on a besoin non seulement des niveaux globaux mais de la typologie de sources et sa repartition grossiere.}
+The traditionally used energetic (sound levels, eg. $L_{Aeq}$) and psychoacoustic (eg. Zwicker's loudness $N$) indicators are not sufficient to characterize the perception of a sound scene (CITE). Indeed, soundscape pleasantness is highly dependent on the composition of the scene (CITE) as each sound source has a different impact. For example, the soundscape quality is likely to be improved by birdsongs and deteriorated by construction noises. Several proposals on sets of relevant indicators (CITE) have been published to better account for the specificities of each scene. Though, the established metrics are mostly derived from physical measurements on longer durations or added information such as traffic flow density.
 
-The use of large-scale sensor networks yields a problematic for the extraction of content-related quantities of interest from important amounts of data. Despite a growing interest in the community, machine learning models - to the best of our knowledge - were not successfully applied to the prediction of source-specific perceptual parameters in complex urban environments. Most event detection applications focus on obtaining a precise localization of source activity, within usual ranges of tens of milliseconds. Source separation models are trained to output the closest estimates to the ground truth. In that regard, predicting the perceived pleasantness is a middle ground. Both detection and level estimation are necessary although perceptual notions are evaluated on longer time scales. The ground truth characteristics of a sound event in a complex scene are likely not to be captured by human perception, as well as differ individually.
+The use of large-scale sensor networks yields a problematic for the extraction of content-related quantities of interest from important amounts of data. Despite a growing interest in the community, machine learning models - to the best of our knowledge - were not yet specifically targeted to the prediction of source-specific perceptual parameters in complex urban environments. Most event detection applications focus on obtaining a precise localization of source activity, within usual ranges of tens of milliseconds. \ml{enlever Source separation models are trained to output the closest estimates to the ground truth. In that regard, predicting the perceived pleasantness is a middle ground}. Both detection and level estimation are necessary although perceptual notions are evaluated on a coarser time scale than usually considered. %The ground truth characteristics of a sound event in a complex scene are likely not to be captured by human perception, as well as differ individually.
 
-Nevertheless, several tools and resources have been proposed to approach soundscape characterization as a machine learning problem. The Sounds of New-York City (SONYC) project (CITE) released the UrbanSound (CITE) and Urban-Sed (CITE) datasets for sound event classification and detection in urban environments respectively. Sound scene synthesis libraries such as simScene (CITE) and Scaper (CITE) also palliate the difficulty of constructing corpora dedicated to a specific task. Large datasets can be created in a controlled manner to cover experimental plans while providing ground truth information without the need of human annotation.
+%Nevertheless, several tools and resources have been proposed to approach soundscape characterization as a machine learning problem. The Sounds of New-York City (SONYC) project (CITE) released the UrbanSound (CITE) and Urban-Sed (CITE) datasets for sound event classification and detection in urban environments respectively. Sound scene synthesis libraries such as simScene (CITE) and Scaper (CITE) also palliate the difficulty of constructing corpora dedicated to a specific task. Large datasets can be created in a controlled manner to cover experimental plans while providing ground truth information without the need of human annotation.
 
-Challenges such as Detection and Classification of Acoustic Scenes and Events (DCASE) are proposed to apply complex detection and classification models to real-life data and applications in the urban context. This involves soundscape categorization and sound event detection with added difficulties (weak labeling, rare events). The objective of this work is to formally propose a task based on sound event detection and classification for the perceptual characterization of sound scenes in a urban environment.
+%Challenges such as Detection and Classification of Acoustic Scenes and Events (DCASE) are proposed to apply complex detection and classification models to real-life data and applications in the urban context. This involves soundscape categorization and sound event detection with added difficulties (weak labeling, rare events). The objective of this work is to formally propose a task based on sound event detection and classification for the perceptual characterization of sound scenes in a urban environment.
+
+We strongly believe that the use of machine listening techniques could greatly benefit the automatic assessment of urban soundscape quality using sensor networks. Though, as it will be discussed in this paper, some important adaptations needs to be performed to event detection systems in order to efficiently tackle this task. The aim of this paper if to 1) bring some context of soundscape pleasantness characterization, and 2) report on a perceptual experiment we did in order to study which key elements shall be brought to automatic event detection systems in order to gather relevant information for the task at hand. 
 
 \clearpage
 
 \section{Characterization Task}
 \label{sec:char}
-Several perceptual studies of the urban soundscape quality have been led to propose a model of pleasantness from other perceptual parameters (CITE). In all cases, a good approximation of pleasantness can be obtained by linear combination of both overall and source-specific parameters: 
+Several perceptual studies of the urban soundscape quality have been led to propose a model of pleasantness from other perceptual parameters (CITE). In all cases, a good approximation of pleasantness can be obtained by linear combination of both overall and source-specific parameters:
 \begin{equation}
 P = aL + \sum_s b_sT_s + c
 \end{equation}
@@ -89,7 +95,7 @@ We conduct a perceptual experiment to validate the proposed characterization tas
 
 For this perceptual test, we use a set of sound scenes recorded in the 13th district of Paris as part of the GRAFIC project (CITE). Of the 19 different recording locations, 9 are selected to represent diverse compositional properties: park (P3, P9), quiet street (P5, P11, P13, P17), noisy street (P2, P6) and very noisy street (P16).
 
-The scenes are re-simulated (CITE) using the Matlab toolbox \textit{simScene} (CITE). First, the sound extracts are annotated by ear by identifying active background and event sources. Background sounds are present throughout the whole scene and are characterized by a SNR parameter. Conversely, events are localized occurences that are defined by their start and end times as well as an event-to-background ratio (EBR). The sound scenes are simulated from these annotations and a database of extracts for isolated sources. This ensures access to separated channels from which ground truth source-specific presence and sound level can be computed. One minute of audio is finally extracted for each scene such as no single event overwhelms the perception of the rest of the excerpt. 
+The scenes are re-simulated (CITE) using the Matlab toolbox \textit{simScene} (CITE). First, the sound extracts are annotated by ear by identifying active background and event sources. Background sounds are present throughout the whole scene and are characterized by a SNR parameter. Conversely, events are localized occurences that are defined by their start and end times as well as an event-to-background ratio (EBR). The sound scenes are simulated from these annotations and a database of extracts for isolated sources. This ensures access to separated channels from which ground truth source-specific presence and sound level can be computed. One minute of audio is finally extracted for each scene such as no single event overwhelms the perception of the rest of the excerpt.
 
 During the test, the order of appearance is as follows: the scenes from locations P3 and P16 representing very quiet (park) and very noisy (very noisy street) environments are always presented first to calibrate the subject's answers. The remaining sounds are presented in random order to limit order biases over the participants population. For each scene, 14 criteria are evaluated on a 0-10 scale by the subject. The first four questions cover general sound level and perceptual parameters:
 \begin{enumerate}
@@ -187,9 +193,9 @@ Table~\ref{table:pearsonc} shows the Pearson's correlation coefficients between 
 \section{Discussion}
 \label{sec:disc}
 
-We presented a pilot experiment to assess the feasability of the prediction of perceptual parameters from acoustic indicators in simulated scenes. 
+We presented a pilot experiment to assess the feasability of the prediction of perceptual parameters from acoustic indicators in simulated scenes.
 
-As expected, the physical time presence of sources is not sufficient to fully characterize soundscape perception. The proposed indicator $T_s(\alpha, \beta)$, while relying on a simple emergence model due to the small amount of available data, can be directly linked to source-specific perceptual quantities. It is notably more efficient for the assessment of traffic activity, which is heavily present in the background of sound scenes in a urban context. This illustrates the need to account for emergence of sources as a metric to determine their perceptual importance in complex sound scenes. Predicting the average pleasantness of a soundscape can thus be achieved by estimating the source activity and emergence indicators proposed in Section~\ref{sec:char}. 
+As expected, the physical time presence of sources is not sufficient to fully characterize soundscape perception. The proposed indicator $T_s(\alpha, \beta)$, while relying on a simple emergence model due to the small amount of available data, can be directly linked to source-specific perceptual quantities. It is notably more efficient for the assessment of traffic activity, which is heavily present in the background of sound scenes in a urban context. This illustrates the need to account for emergence of sources as a metric to determine their perceptual importance in complex sound scenes. Predicting the average pleasantness of a soundscape can thus be achieved by estimating the source activity and emergence indicators proposed in Section~\ref{sec:char}.
 
 The postulated precision requirements of estimates are also confirmed. All physical indicators in the presented experiment are computed at a 125~ms or longer time scale, and show strong relations to perceptual evaluations. A binary masking model is used in this study that improves parameter predictions. The estimation of source-wise emergence as a classification process on a 5-point scale as opposed to regression is thus considered sufficient for the application needs.
 
@@ -206,7 +212,7 @@ Future work includes a second, more complete test specifically designed to cover
 %
 % or list them by yourself
 % \begin{thebibliography}{9}
-% 
+%
 % \bibitem{dcase2016web}
 %   \url{http://www.cs.tut.fi/sgn/arg/dcase2016/}.
 %
@@ -215,25 +221,25 @@ Future work includes a second, more complete test specifically designed to cover
 %   \url{http://www.ieee.org/portal/cms_docs/pubs/confstandards/pdfs/IEEE-PDF-SpecV401.pdf}.
 %
 % \bibitem{PDFOpenSourceTools}
-%   Creating high resolution {PDF} files for book production with 
-%   open source tools, 
+%   Creating high resolution {PDF} files for book production with
+%   open source tools,
 %   \url{http://www.grassbook.org/neteler/highres_pdf.html}.
 %
 % \bibitem{eWilliams1999}
 % E. Williams, \emph{Fourier Acoustics: Sound Radiation and Nearfield Acoustic
 %   Holography}. London, UK: Academic Press, 1999.
-% 
+%
 % \bibitem{ieeecopyright}
 %   \url{http://www.ieee.org/web/publications/rights/copyrightmain.html}.
 %
 % \bibitem{cJones2003}
 % C. Jones, A. Smith, and E. Roberts, ``A sample paper in conference
 %   proceedings,'' in \emph{Proc. IEEE ICASSP}, vol. II, 2003, pp. 803--806.
-% 
+%
 % \bibitem{aSmith2000}
-% A. Smith, C. Jones, and E. Roberts, ``A sample paper in journals,'' 
+% A. Smith, C. Jones, and E. Roberts, ``A sample paper in journals,''
 %   \emph{IEEE Trans. Signal Process.}, vol. 62, pp. 291--294, Jan. 2000.
-% 
+%
 % \end{thebibliography}
 
 
