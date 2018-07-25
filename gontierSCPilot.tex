@@ -44,21 +44,17 @@ Mathieu Lagrange$^{1}$,
 \begin{sloppy}
 
 \begin{abstract}
+There is a need to better characterize the perception of urban sound environments. Studies in psychoperception show that assessing properties about characteristic sources is important. To produce relevant noise maps the contribution of each source must be estimated from a sensor network. This paper presents a perceptual test on simulated sound scenes for which conjointed source properties are known. Results show that it is indeed feasible to predict perceptual source-specific quantities of interest from recordings, leading to possible automatic soundscape characterization.
 
 \end{abstract}
 
 \begin{keywords}
 \end{keywords}
 
-%TODO : Abstract
-%TODO : Diagramme 2.
-%TODO : Titre 3.
-
-
 \section{Introduction}
 \label{sec:intro}
 
-The ongoing urbanization process has led to an increase in sound quality concerns. In urban areas the noise has been linked to several health issues including sleep-related troubles as well as heart diseases rates, and is a major cause for city dwellers' annoyance in certain areas. In this context, the 2002/49/CE European directive~\cite{ec2002} requires that large cities maintain noise maps to facilitate the development of noise reducing plans. These noise maps are mainly based on predictive maps generated using propagation models. The studies are also 1) often limited to traffic and other transportation sources, and 2) few physical measurements are used. Furthermore, the models depend on topological data that may be unavailable or incomplete. The advent of the Internet of Things (IoT) presents an opportunity for the development of large, scalable networks of acoustic sensors~\cite{mydlarz2017, gontier2017}. The Characterization of Urban Sound Environments (CENSE) project~\cite{cense} aims at implementing such a network to produce perceptually motivated noise maps.
+The ongoing urbanization process has led to an increase in sound quality concerns. In urban areas the noise has been linked to several health issues including sleep-related troubles as well as heart diseases rates, and is a major cause for city dwellers' annoyance in certain areas. In this context, the 2002/49/CE European directive~\cite{ec2002} requires that large cities maintain noise maps to facilitate the development of noise reducing plans. These noise maps are mainly based on predictive maps generated using propagation models. The studies are also 1) often limited to traffic and other transportation sources, and 2) few physical measurements are used. Furthermore, the models depend on topological data that may be unavailable or incomplete. The advent of the Internet of Things (IoT) presents an opportunity for the development of large, scalable networks of acoustic sensors~\cite{mydlarz2017, gontier2017}. The Characterization of Urban Sound Environments (CENSE) project~\cite{picault2017} aims at implementing such a network to produce perceptually motivated noise maps.
 
 Schafer~\cite{schafer1977} defined a soundscape as the perceptual result of a sound environment. The assessment of subjective descriptors~\cite{berglund2006, brown2011, aletta2016} such as the liveliness or familiarity is thus necessary to evaluate the quality of urban scenes. The relevant attributes describing the appreciation of soundscapes can be mapped in perceptual spaces~\cite{axelsson2010, cain2013}. The ensemble of considered attributes is reduced to a few dimensions which are used as a basis for perceptual experiments. Specifically, the dimension of pleasantness is increasingly associated with soundscape quality in recent works~\cite{decoensel2006, delaitre2014, ricciardi2014, aumond2017}.
 
@@ -74,22 +70,26 @@ The use of large-scale sensor networks yields a problematic for the extraction o
 
 We strongly believe that the use of machine listening techniques could greatly benefit the automatic assessment of urban soundscape quality using sensor networks. Though, as it will be discussed in this paper, some important adaptations needs to be performed to event detection systems in order to efficiently tackle this task. The aim of this paper is to 1) bring some context of soundscape pleasantness characterization, and 2) report on a perceptual experiment performed in order to study which features shall be brought by automatic event detection systems in order to gather relevant information for the task of characterize perceptual attributes of the soundscape.
 
-\clearpage
 
 \section{Soundscape Characterization}
 \label{sec:char}
-Several perceptual studies of the urban soundscape quality have been led to propose a model of pleasantness from other perceptual parameters~\cite{nilsson2007, axelsson2010, aumond2017, ricciardi2014}. In all cases, a good approximation of pleasantness can be obtained by linear combination of both overall and source-specific parameters:
+Several perceptual studies of the urban soundscape quality have been led to propose a model of pleasantness from other perceptual parameters~\cite{nilsson2007, axelsson2010, aumond2017, ricciardi2014}. In all cases, a good approximation of pleasantness can be obtained by linear combination of both overall and source-specific parameters evaluated on discrete scales. Global parameters consider the sound scene in its entirety, the overall loudness is commonly used. The parameters used for the assessment of source-wise contributions include 1) the sound level where each source is considered separately, 2) the emergence or dominance relating to the influence of the source in the global mix, or 3) the time presence, that is the ratio of time where the source $s$ is heard in a given scene. The notion of time presence is particularly interesting as it hints at the possibility of automatic prediction through event detection systems. The corresponding model is:
 \begin{equation}
 P = aL + \sum_s b_sT_s + c
 \end{equation}
-where $T_s$ is the perceived time presence for source $s$, that is the ratio of time where the source $s$ is heard in a given scene. The coefficients $a$, $b_s$ and $c$ are usually found via multiple linear regression and thus differ in each study.
+where $L$ is the perceived overall level of the scene and $T_s$ is the perceived time presence for source $s$. The coefficients $a$, $b_s$ and $c$ are usually found via multiple linear regression and thus differ in each study.
 Furthermore, three principal source categories are usually identified: mechanical, human and animal. Mechanical sounds are mainly composed of traffic and are mostly found to have a negative impact on soundscape pleasantness, whereas animal sources (bird activity) have a positive influence and human sounds (voices) can yield mixed effects.
 
 Taken these models for granted, the prediction of pleasantness can be assimilated as that of perceived time presences. These quantities of interest are more closely related to the audio signal and their assessment represents an interesting application for detection models proposed in the data science and machine learning community.
 
-\ml{faire un diagramme de bloc et relier chaque métrique a une etape}
+\begin{figure}[t]
+  \centering
+  \centerline{\includegraphics[width=\columnwidth]{block.pdf}}
+  \caption{The three suggested levels of metrics to predict soundscape pleasantness. (a) Traffic (T), Voice (V) and bird (B) events are detected and their sound level roughly estimated. (b) The perceptual time presence for each source is computed on one-minute frames, resulting in a pleasantness value (c).}
+  \label{fig:block}
+\end{figure}
 
-Three levels of metrics are thus identified for this task. First, the physical level is evaluated with a 125~ms precision on the presence and emergence of the three sound sources. The presence is a binary value and the emergence is chosen as a five-point scale (Not heard - Dominant) rather than as a sound level. The motivation for this choice is two-fold: discrete scales are sufficient when the metric is linked to perceptual parameters, and the problem is translated from source separation and estimation to classification. The second level is the perceived time presence for each source in the whole scene represented as a scalar in the 0-1 range. The third level is the estimate of pleasantness over the scene, also represented as a 0-1 scalar. Because soundscape pleasantness is the main focus of the task at hand, models can be designed to predict the metrics at either level.
+Three levels of metrics are thus identified for this task, as shown in Figure~\ref{fig:block}. First, the physical level (a) is evaluated on the presence and emergence of the three identified sound sources. The needed precision of event onset and sound level estimations is further studied in this paper. The second level (b) is the perceived time presence for each source in the whole scene represented as a scalar in the 0-1 range. The third level (c) is the estimate of pleasantness over the scene, also represented as a 0-1 scalar. Both the perceptual levels of metrics are only relevant on longer time scales, about one minute being a usual value in existing experiments.
 
 The transition model between the perceived time presence per source and pleasantness is known. However no previous work exists that uses detection models for the estimation of source-specific subjective parameters. The feasibility of assessing source perception from the postulated metrics at the physical level must be verified as a first step prior to building the estimation model.
 
@@ -116,24 +116,22 @@ Participants can only listen to each scene once and must answer all questions be
 
 An outlier detection procedure is applied on the 270 resulting assessments (30 subjects, 9 scenes). An assessment is rejected when it is located away from the mean by more than 3 standard deviations at the question level, that is for each parameter of each scene. The results from two participants with more than 10\% assessments considered as outliers are removed from the study, which thus includes 252 individual assessments on 20 parameters.
 
-The perceptual space produced by the test is first compared to previous studies in the literature. This to ensure that relevant conclusions can be made on further analysis. Figure~\ref{fig:pca} shows the principal component analysis (PCA) of the four general questions at the assessment level. The first two components respectively explain 52.3\% and 30.5\% of the global variance. It is found that liveliness (L) correlates poorly with calmness (C), while interest (I) is between the two. These results can be compared to previous studies on similar pleasantness parameters~\cite{axelsson2010, cain2013, jeon2018}, where interest and calmness were established as almost independant. The scale of liveliness was in both cases correlated similarly with the the two others. However, just as the principal components space was slightly distorted in~\cite{jeon2018} due to the study being focused on park environments, here the small size of the considered corpus in terms of number of scenes also affect the relations between perceptual parameters. % The absence of a dedicated pleasantness scale in our study limits further comparisons.
+The perceptual space produced by the test is first compared to previous studies in the literature. This is to ensure that relevant conclusions can be made on further analysis. Figure~\ref{fig:pca} shows the principal component analysis (PCA) of the four general questions at the scene level (n=9). The first two components respectively explain 52.3\% and 30.5\% of the global variance. It is found that liveliness (L) correlates poorly with calmness (C), while interest (I) is between the two. These results can be compared to previous studies on similar pleasantness parameters~\cite{axelsson2010, cain2013, jeon2018}, where interest and calmness were established as almost independant. The scale of liveliness was in both cases correlated similarly with the the two others. However, just as the principal components space was slightly distorted in~\cite{jeon2018} due to the study being focused on park environments, here the small size of the considered corpus in terms of number of scenes also affect the relations between perceptual parameters.
 
 \begin{figure}[t]
   \centering
   \centerline{\includegraphics[width=\columnwidth]{pca.pdf}}
-  \caption{Principal component analysis (first two components) of the four general perceptual parameters at the scene level (n=9). }
+  \caption{Principal component analysis (first two components) of the four general perceptual parameters at the scene level (n=9). The observed space is distorted although comparable that of previous works in the literature.}
   \label{fig:pca}
 \end{figure}
 
-\ml{what is n ?}
-
-The main objective of this work is to predict pleasantness parameters from acoustical data without perceptual assessments. As shown in Section~\ref{sec:char} several models have been established to assess pleasantness as a function of perceived sound sources. Thus, physical indicators are computed from the audio tracks obtained during scene simulation. To evaluate the overall loudness of the scene three measurements are chosen in accordance previous studies~\cite{decoensel2006, ricciardi2014, aumond2017}:
+As shown in Section~\ref{sec:char} several models have been established to assess pleasantness as a function of global and source-specific parameters. The main objective of this work is to predict pleasantness from acoustical data without perceptual assessments. Thus, physical indicators are computed from the audio tracks obtained during scene simulation. To evaluate the overall loudness of the scene three measurements are chosen in accordance previous studies~\cite{decoensel2006, ricciardi2014, aumond2017}:
 \begin{itemize}
 \item L50: Z-weighted (no weighting over the observed frequency range) sound level exceeded 50\% of the time in dB,
 \item LA50: A-weighted sound level exceeded 50\% of the time in dBA,
 \item L50 for the 1kHz band only.
 \end{itemize}
-The time-frequency second derivative (TFSD) indicator was shown to improve pleasantness predictions in \cite{aumond2017}. Two TFSD indicators are computed: the TFSD at $4~kHz$ and $125~ms$ frame length which is found to strongly correlate with the perceived bird presence, and at $500~Hz$ and $1~s$ frame length which correlates with human voice presence.
+
 
 \begin{table*}[ht!]
 \centering
@@ -149,15 +147,15 @@ The time-frequency second derivative (TFSD) indicator was shown to improve pleas
 	$TFSD_{500Hz}$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS \\
 	$TFSD_{4kHz}$ & NS & 0.88** & NS & NS & -0.72* & -0.71* & 0.92** & 0.81** & NS & NS & NS & NS & NS & NS \\ \hline
 	$T_T$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS \\
-	$T_L$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS \\ \hline
-	$B_T$ & NS & 0.67* & NS & NS & 0.71* & 0.75* & NS & NS & NS & NS & NS & NS & NS & NS \\
-	$B_L$ & NS & 0.93** & NS & NS & -0.84** & -0.83** & 0.91** & 0.82** & NS & NS & NS & NS & NS & NS \\ \hline
-	$H_T$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & 0.84** & NS & NS & NS & NS \\
-	$H_L$ & NS & NS & NS & NS & NS & NS & NS & NS & 0.98** & 0.78* & NS & NS & NS & NS \\ \hline
-	$V_T$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS \\
-	$V_L$ & NS & NS & 0.81** & NS & NS & NS & NS & NS & NS & NS & 0.84** & 0.88** & NS & NS \\ \hline
-	$F_T$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & 0.9** & 0.68* \\
-	$F_L$ & NS & NS & -0.72* & NS & NS & NS & NS & NS & NS & NS & -0.69* & -0.78* & 0.92** & NS \\ \hline
+	$L_T$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS \\ \hline
+	$T_B$ & NS & 0.67* & NS & NS & 0.71* & 0.75* & NS & NS & NS & NS & NS & NS & NS & NS \\
+	$L_B$ & NS & 0.93** & NS & NS & -0.84** & -0.83** & 0.91** & 0.82** & NS & NS & NS & NS & NS & NS \\ \hline
+	$T_H$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & 0.84** & NS & NS & NS & NS \\
+	$L_H$ & NS & NS & NS & NS & NS & NS & NS & NS & 0.98** & 0.78* & NS & NS & NS & NS \\ \hline
+	$T_V$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS \\
+	$L_V$ & NS & NS & 0.81** & NS & NS & NS & NS & NS & NS & NS & 0.84** & 0.88** & NS & NS \\ \hline
+	$T_F$ & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & NS & 0.9** & 0.68* \\
+	$L_F$ & NS & NS & -0.72* & NS & NS & NS & NS & NS & NS & NS & -0.69* & -0.78* & 0.92** & NS \\ \hline
 	$T_T(\alpha)$ & NS & -0.81** & NS & NS & 0.90** & 0.94** & NS & NS & NS & NS & NS & NS & NS & NS \\
 	$T_T(\alpha, \beta)$ & NS & -0.80** & NS & NS & 0.88** & 0.92** & NS & NS & NS & NS & NS & NS & NS & NS \\ \hline
 	$T_B(\alpha)$ & NS & 0.88** & NS & NS & NS & NS & 0.95** & 0.97** & NS & NS & NS & NS & NS & NS \\
@@ -172,11 +170,13 @@ The time-frequency second derivative (TFSD) indicator was shown to improve pleas
 }
 \end{table*}
 
-Source-specific indicators are also computed: the time presence and an emergence estimation metric, obtained by subtracting the global L90 (Z-weighted level exceeded 90\% of the time) found to represent well background activity to the L10 of each source. The emergence is considered for the whole source activity while time presence can only be associated to sound events. Sound levels are computed with the Matlab ITA toolbox~\cite{itatoolbox2017} in the 20~Hz-20~kHz range.
+Source-specific indicators are also computed: the time presence and an emergence estimation metric (resp. $T_s$ and $L_s$ for source $s$), obtained by subtracting the global L90 (Z-weighted level exceeded 90\% of the time) found to represent well background activity to the L10 of each source. The emergence is considered for the whole source activity while time presence can only be associated to sound events. Sound levels are computed with the Matlab ITA toolbox~\cite{itatoolbox2017} in the 20~Hz-20~kHz range.
 
-In the considered scenes, background sources are always active. The measurement of time presence is thus limited to sound events which leads to relatively poor matching with perceptual responses. This is particularly visible for traffic sources, on which most pleasantness parameters strongly depend. While being objectively present over the whole duration of the scenes, traffic is not perceived as such in quiet scenes (park, quiet street). Furthermore, the proposed indicators only consider each sound source separately, not taking into account potential masking effects by other sources active at the same time. Two additional indicators are thus proposed regarding these considerations.
+The time-frequency second derivative (TFSD) indicator was shown to improve pleasantness predictions in \cite{aumond2017}. Two TFSD indicators are additionally computed: the TFSD at $4~kHz$ and $125~ms$ frame duration which is found to strongly correlate with the perceived bird presence, and at $500~Hz$ and $1~s$ frame duration which correlates with human voice presence.
 
-The first proposed indicator $T_s(\alpha)$ relies on the emergence of each sound source relative to the others over time. Sound levels (dB SPL) are computed for audio frames of 125~ms. This duration approximately corresponds to that of the shortest found event and is widely used in acoustical monitoring applications. The emergence, \textit{i.e.} difference $\Delta_s(t)$ of sound levels between the studied source ($L_s(t)$) and the background ($L_b(t)$) is computed. No difference is made between background and event sources. The source is then considered present on a given frame if the emergence is greater than a threshold value $\alpha$. Finally, a time presence measurement is obtained by averaging over time:
+In the considered scenes, background sources are always active. The measurement of time presence is thus limited to sound events which leads to relatively poor representation of the ground truth. This is particularly problematic for traffic sources active in the background of most urban soundscapes. Furthermore, the considered indicators are computed for each sound source separately, not taking into account potential masking effects by other sources active at the same time. Two additional indicators are thus designed regarding these considerations.
+
+The first indicator $T_s(\alpha)$ is a time presence metric relying on the emergence of each sound source relative to the others over time. Sound levels (dB SPL) are computed for audio frames of 125~ms. This duration approximately corresponds to that of the shortest found event and is widely used in acoustical monitoring applications. The emergence, \textit{i.e.} difference $\Delta_s(t)$ of sound levels between the studied source ($L_s(t)$) and the background constituted of all others ($L_b(t)$) is computed. The source is then considered present on a given time frame if the emergence is greater than a threshold value $\alpha$. Finally, a time presence measurement is obtained by averaging over time:
 \begin{equation}
 T_s(\alpha) = \frac{1}{N_t}\sum_{t = 1}^{N_t}\mathbbm{1}_{\Delta_s(t)>\alpha}
 \end{equation}
@@ -192,9 +192,9 @@ T_s(\alpha, \beta) = \frac{1}{N_t}\sum_{t = 1}^{N_t}\mathbbm{1}\left[ \frac{\sum
 \end{equation}
 where $N_f$ is the number of third-octave bands. Again, optimal values for parameters $\alpha_{opt} = -6 dB$ and $\beta_{opt} = -5 dB$ are found via grid search. This is a much more plausible set of values, indicating that a source's emergent frequency components must be on average at most 5~dB less than other sources present at the same time for the source to be heard.
 
+Table~\ref{table:pearsonc} shows the Pearson's correlation coefficients between the computed indicators and assessed parameters at the sound scene level (n=9). The three globally computed sound levels $L50$, $LA50$ and $L50_{1kHz}$ represent very well the perceived overall loudness of the scene and can be used directly for pleasantness prediction. Ground truth emergences also correlate with the evaluated sound level parameters for all sources but traffic. The perceived time presence is however represented poorly by both ground truth time of presence and emergence metrics: the source time presence fails to account for potential masking by other sounds and the long-term emergence does not consider time distribution of activity. Furthermore, these indicators are not sufficiently discriminative of active sources as visible for traffic and birds or voices and footsteps. The $TFSD_{4kHz}$, while achieving good performances for the prediction of parameters related to bird presence, suffers from the same problem. The $TFSD_{500Hz}$ is not significantly correlated to the perception of human voices in this study. The two proposed emergence-based time presence indicators achieve better performances: they are discriminative and show high correlations with the perception of corresponding sources. This confirms the need of an emergence-based presence indicator to successfully represent heard sources in the scene's mix.
 
-Table~\ref{table:pearsonc} shows the Pearson's correlation coefficients between the computed indicators and assessed parameters at the sound scene level. Global sound levels represent very well the perceived overall loudness of the scene. The $TFSD_{500Hz}$ is not significantly correlated to the perception of human voices, and the $TFSD_{4kHz}$ does not discriminate parameters related to traffic and bird presence. Ground truth indicators suffer from similar problems. Traffic is almost always present in the background of the studied soundscapes but can be masked by other sources. As a result the ground truth time presence and emergence are not efficient when used separately to characterize perception of traffic. The two proposed emergence-based time presence indicators achieve better performances: they are discriminative and show high correlations with the perception of corresponding sources.
-
+For all sources the perceived time presence and sound level are highly correlated ($r>0.8, p<0.01$). This is not the case for the corresponding acoustical indicators indicating information redundancy between these two quantities at the perceptual level. The sound level can thus be omitted in the pleasantness model. Furthermore, multiple linear regressions confirm that sources beside traffic, voices and birds have little impact on the studied perceptual notions of interest, liveliness and calmness. In these models similar contributions are obtained from other perceptual quantities and physical indicators.
 
 \section{Discussion}
 \label{sec:disc}
@@ -203,13 +203,15 @@ We presented a pilot experiment to assess the relevance of predicting perceptual
 
 As expected, the physical time presence of sources is not sufficient to fully characterize soundscape perception. The proposed indicator $T_s(\alpha, \beta)$, while relying on a simple emergence model due to the small amount of available data, can be directly linked to source-specific perceptual quantities. It is notably more efficient for the assessment of traffic activity, which is heavily present in the background of sound scenes in a urban context. This illustrates the need to account for emergence of sources as a metric to determine their perceptual importance in complex sound scenes. Predicting the average pleasantness of a soundscape can thus be achieved by estimating the source activity and emergence indicators proposed in Section~\ref{sec:char}.
 
-The postulated precision requirements of estimates are also confirmed. All physical indicators in the presented experiment are computed at a 125~ms or longer time scale, and show strong relations to perceptual evaluations. A binary masking model is used in this study that improves parameter predictions. The estimation of source-wise emergence as a classification process on a 5-point scale as opposed to regression is thus considered sufficient for the application needs.
+Precision requirements of the postulated physical metrics are also obtained. The 125~ms or longer time scales used for the computation of all indicators in the presented experiment are allow the design of perceptually relevant indicators. A binary (not heard - heard) masking model is shown in this study to improve parameter prediction. The estimation of source-wise emergence as a classification process on a discrete scale as opposed to continuous regression is thus considered sufficient for the application needs.
 
-For all sources the perceived time presence and sound level are highly correlated ($r>0.8, p<0.01$). This is not the case for the corresponding acoustical indicators indicating information redundancy between these two quantities at the perceptual level. The sound level can thus be omitted in the pleasantness model. Furthermore, multiple linear regressions confirm that sources beside traffic, voices and birds have little impact on the observed perceptual notions of interest, liveliness and calmness. Energetic indicators such as the $L_{50}$ are closely related to overall sound level perception and no additional prediction is required as part of the task.
+Future work will consider 1) consider a refined perceptual experiment with a richer soundscape corpus in order to achieve a stronger validation and model design and 2) formulate a complete experimental protocol dedicated to the soundscape characterization task.
 
-Future work will consider 1) consider a refined perceptual experiment with a richer soundscape corpus in order to achieve a stronger validation and 2) formulate a complete  experimental protocol dedicated to the soundscape characterization task.
+%The dataset for this task will be a collection of one minute long simulated sound scenes created using simScene~\cite{rossignol2015} or Scaper~\cite{salamon2017}. We believe that the use of simulated scenes offers multiple advantages: their composition and complexity is entirely controllable and source-specific channels can be accessed with ground truth annotations. Considering the models proposed in the literature the taxonomy for sources of interest is limited to traffic, voice and bird activities. Multiple environments will be considered for compositional variability: park, quiet street, noisy street, very noisy street and square. 
 
-The dataset for this task will be a collection of one minute long simulated sound scenes created using simScene~\cite{rossignol2015} or Scaper~\cite{salamon2017}. We believe that the use of simulated scenes offers multiple advantages: their composition and complexity is entirely controllable and source-specific channels can be accessed with ground truth annotations. Considering the models proposed in the literature the taxonomy for sources of interest is limited to traffic, voice and bird activities. Multiple environments will be considered for compositional variability: park, quiet street, noisy street, very noisy street and square. %Finally, the development part of the dataset will be published with the corresponding separated tracks for each source, the evaluation dataset will only contain mixed scenes.
+%Three levels of metrics are thus identified for this task, as shown in Figure~\ref{fig:block}. First, the physical level (a) is evaluated with a 125~ms precision on the presence and emergence of the three sound sources. The presence is a binary value and the emergence is chosen as a five-point scale (Not heard - Dominant) rather than as a sound level. The motivation for this choice is two-fold: discrete scales are sufficient when the metric is linked to perceptual parameters, and the problem is translated from source separation and estimation to classification. The second level is the perceived time presence for each source in the whole scene represented as a scalar in the 0-1 range. The third level is the estimate of pleasantness over the scene, also represented as a 0-1 scalar. Because soundscape pleasantness is the main focus of the task at hand, models can be designed to predict the metrics at either level.
+
+%Finally, the development part of the dataset will be published with the corresponding separated tracks for each source, the evaluation dataset will only contain mixed scenes.
 
 
 
