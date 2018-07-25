@@ -44,7 +44,9 @@ Mathieu Lagrange$^{1}$,
 \begin{sloppy}
 
 \begin{abstract}
-There is a need to better characterize the perception of urban sound environments. Studies in psychoperception show that assessing properties about characteristic sources is important. To produce relevant noise maps the contribution of each source must be estimated from a sensor network. This paper presents a perceptual test on simulated sound scenes for which conjointed source properties are known. Results show that it is indeed feasible to predict perceptual source-specific quantities of interest from recordings, leading to possible automatic soundscape characterization.
+Assessing properties about specific sound sources is important to  characterize better the perception of urban sound environments. In order to produce perceptively motivated noise maps, we argue that it is possible to consider the data produced by acoustic sensor networks.
+
+In order to validate this important assumption, this paper reports on a perceptual test on simulated sound scenes for which both perceptual and acoustic source properties are known. Results show that it is indeed feasible to predict perceptual source-specific quantities of interest from recordings, leading to the new task of automatic soundscape characterization which specificities are discussed.
 
 \end{abstract}
 
@@ -207,7 +209,7 @@ Precision requirements of the postulated physical metrics are also obtained. The
 
 Future work will consider 1) consider a refined perceptual experiment with a richer soundscape corpus in order to achieve a stronger validation and model design and 2) formulate a complete experimental protocol dedicated to the soundscape characterization task.
 
-%The dataset for this task will be a collection of one minute long simulated sound scenes created using simScene~\cite{rossignol2015} or Scaper~\cite{salamon2017}. We believe that the use of simulated scenes offers multiple advantages: their composition and complexity is entirely controllable and source-specific channels can be accessed with ground truth annotations. Considering the models proposed in the literature the taxonomy for sources of interest is limited to traffic, voice and bird activities. Multiple environments will be considered for compositional variability: park, quiet street, noisy street, very noisy street and square. 
+%The dataset for this task will be a collection of one minute long simulated sound scenes created using simScene~\cite{rossignol2015} or Scaper~\cite{salamon2017}. We believe that the use of simulated scenes offers multiple advantages: their composition and complexity is entirely controllable and source-specific channels can be accessed with ground truth annotations. Considering the models proposed in the literature the taxonomy for sources of interest is limited to traffic, voice and bird activities. Multiple environments will be considered for compositional variability: park, quiet street, noisy street, very noisy street and square.
 
 %Three levels of metrics are thus identified for this task, as shown in Figure~\ref{fig:block}. First, the physical level (a) is evaluated with a 125~ms precision on the presence and emergence of the three sound sources. The presence is a binary value and the emergence is chosen as a five-point scale (Not heard - Dominant) rather than as a sound level. The motivation for this choice is two-fold: discrete scales are sufficient when the metric is linked to perceptual parameters, and the problem is translated from source separation and estimation to classification. The second level is the perceived time presence for each source in the whole scene represented as a scalar in the 0-1 range. The third level is the estimate of pleasantness over the scene, also represented as a 0-1 scalar. Because soundscape pleasantness is the main focus of the task at hand, models can be designed to predict the metrics at either level.
 
