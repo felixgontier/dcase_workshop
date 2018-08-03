@@ -65,10 +65,9 @@ The ISO 12913-1~\cite{iso2014} standard gives the following definition of sounds
 
 Acoustic monitoring applications typically rely on the measurement of energetic (sound levels, eg. $L_{Aeq}$) and psychoacoustic (eg. Zwicker's loudness $N$) indicators. These global quantities describe the overall activity, with percentile values linked to event or background assessment. However they do not differentiate sound sources and are thus not sufficient to a perceptual characterization of soundscapes. Additional information about the taxonomic classification of active sources and their distribution in time is needed. Several sets of relevant indicators have been studied~\cite{can2008, can2016, brocolini2013} to better account for the specificities of each scene and their source composition.
 
-The use of large-scale sensor networks yields a problematic for the extraction of content-related quantities of interest from important amounts of data. Despite a growing interest in the community, machine learning models - to the best of our knowledge - were not yet specifically targeted to the prediction of source-specific perceptual parameters in complex urban environments. Most event detection applications focus on obtaining a precise annotation of source activity, within usual ranges of tens of milliseconds. The estimation of sound levels involves entirely different models through source separation and regression \cite{gloaguen2016} and longer time scales. %Both detection and level estimation are necessary to predict soundscape qualities although perceptual notions are evaluated on a coarser time scale and rougher precision than usually considered.
+The use of large-scale sensor networks yields a problematic for the extraction of content-related quantities of interest from important amounts of data. Despite a growing interest in the community, machine learning models - to the best of our knowledge - were not yet specifically targeted to the prediction of source-specific perceptual parameters in complex urban environments. Most event detection applications focus on obtaining a precise annotation of source activity, within usual ranges of tens of milliseconds. The estimation of sound levels involves entirely different models through source separation and regression \cite{gloaguen2016} and longer time scales.
 
-We believe that the use of machine listening techniques could greatly benefit the automatic assessment of urban soundscape quality using sensor networks. %Though, as it will be discussed in this paper, some important adaptations needs to be performed to the definition of objectives of event detection systems in order to efficiently tackle this task.
-The aim of this paper is to 1) bring some context of soundscape characterization, and 2) report on a perceptual experiment performed in order to study which features shall be brought by automatic event detection systems in order to gather relevant information for the task of characterize perceptual attributes of the soundscape.
+We believe that the use of machine listening techniques could greatly benefit the automatic assessment of urban soundscape quality using sensor networks. The aim of this paper is to 1) bring some context of soundscape characterization, and 2) report on a perceptual experiment performed in order to study which features shall be brought by automatic event detection systems in order to gather relevant information for the task of characterize perceptual attributes of the soundscape.
 
 
 \section{Soundscape Characterization}
@@ -83,8 +82,6 @@ P = aL + \sum_s b_sT_{s,p} + c
 where $P$ is the scene's pleasantness, $L$ is the perceived overall level and $T_{s,p}$ is the perceived time of presence for source $s$. These parameters are evaluated on discrete scales through perceptual tests. The coefficients $a$, $b_s$ and $c$ are usually found via multiple linear regression and thus differ in each study.
 Furthermore, three principal source categories are usually identified: mechanical, human and nature. Mechanical sounds are mainly composed of traffic and are mostly found to have a negative impact on soundscape pleasantness, whereas nature sources such as bird activity or water sounds have a positive influence and human sounds (voices) can yield mixed effects.
 
-
-%These quantities of interest are related to the audio signal and their assessment represents an interesting application for detection models proposed in the data science and machine learning community.
 
 \begin{figure}[t]
   \centering
@@ -117,17 +114,14 @@ During the test, the order of appearance is as follows: the original recorded sc
 \end{enumerate}
 Source-specific perceived time of presence (scale \textit{Never - Continuously}) and sound level (scale \textit{Very low - Very high}) are also evaluated. The considered sources are traffic (T), birds (B), horns and sirens (H), human voice (V) and footsteps (F). The perceived time of presence and level for source $s$ are respectively noted $T_{s,p}$ and $L_{s,p}$ in the remainder of this paper.
 
-%The test is conducted using a Python interface.
 Participants can only listen to each scene once and must answer all questions before listening to the next scene. All subjects used the same hardware desktop configuration, sound card and software, as well as Beyerdynamics DT-990 headphones in a quiet environment. The same output volume on headphones was set by the experimenter for all scenes and participants. 30 subjects took the test in 3 sessions, all reported normal hearing conditions.
 
 \subsection{Results}
 
 
-An outlier detection procedure is applied on the 270 resulting assessments (30 subjects, 9 scenes). An assessment is rejected when its distance from the mean is higher than 3 standard deviations at the question level, that is for each parameter of each scene. The results from two participants with more than 10\% assessments considered as outliers are removed from the study%, which includes as a result 252 individual assessments on 20 parameters
-.
+An outlier detection procedure is applied on the 270 resulting assessments (30 subjects, 9 scenes). An assessment is rejected when its distance from the mean is higher than 3 standard deviations at the question level, that is for each parameter of each scene. The results from two participants with more than 10\% assessments considered as outliers are removed from the study.
 
-The perceptual space produced by the test is first compared to previous studies in the literature. This is to ensure that relevant conclusions can be made on further analysis. Figure~\ref{fig:pca} shows the standardized principal component analysis (PCA) of the average values of the four general questions at the scene level (n=9). The first two components respectively explain 52.3\% and 30.5\% of the global variance. It is found that liveliness (L) correlates poorly with calmness (C), while interest (I) is between the two. These results can be compared to previous studies on similar soundscape qualities parameters~\cite{axelsson2010, cain2013, jeon2018}, where interest and calmness were established as almost independent. The scale of liveliness was in both cases correlated similarly with the two others. However, just as the principal components space is slightly distorted in~\cite{jeon2018} due to the study being focused on park environments%, here the small size of the considered corpus in terms of number of scenes also affect the relations between perceptual parameters
-. The correspondence between these results on global perceptual parameters and those of the literature allows us to think that perceptual data on sources are relevant for this study.
+The perceptual space produced by the test is first compared to previous studies in the literature. This is to ensure that relevant conclusions can be made on further analysis. Figure~\ref{fig:pca} shows the standardized principal component analysis (PCA) of the average values of the four general questions at the scene level (n=9). The first two components respectively explain 52.3\% and 30.5\% of the global variance. It is found that liveliness (L) correlates poorly with calmness (C), while interest (I) is between the two. These results can be compared to previous studies on similar soundscape qualities parameters~\cite{axelsson2010, cain2013, jeon2018}, where interest and calmness were established as almost independent. The scale of liveliness was in both cases correlated similarly with the two others. However, just as the principal components space is slightly distorted in~\cite{jeon2018} due to the study being focused on park environments. The correspondence between these results on global perceptual parameters and those of the literature allows us to think that perceptual data on sources are relevant for this study.
 
 \begin{figure}[t]
   \centering
@@ -192,10 +186,7 @@ T_s(\alpha) = \frac{1}{N_t}\sum_{t = 1}^{N_t}\mathbbm{1}_{\Delta_s(t)>\alpha}
 \end{equation}
 where $N_t$ is the total number of 125~ms analysis frames in the scene. The optimal threshold is found via grid search to be $\alpha = -31dB$ for the considered corpus. If a source is objectively present it will almost always be considered as present regardless of the other contents of the scene.
 
-%In a signal with a monophonic tone and large band noise, the noise has to be at a higher level to completely mask the tone. 
-
-
-However, the masking of a sound by another does not depend only on the emergence over the whole frequency spectrum. The spectral distribution is important, the level comparison shall thus be made around the frequency of the tone. A second indicator $T_s(\alpha, \beta)$, based on a spectral decomposition is thus proposed. Third-octave bands sound levels are computed on 125\~ms frames and the emergence of a source compared to the background is defined as
+However, the masking of a sound by another does not depend only on the emergence over the whole frequency spectrum. The spectral distribution is important, the level comparison shall thus be made around the characteristic frequency components of a source. A second indicator $T_s(\alpha, \beta)$, based on a spectral decomposition is thus proposed. Third-octave bands sound levels are computed on 125\~ms frames and the emergence of a source compared to the background is defined as
 \begin{equation}
 \Delta_s(t, f) = L_s(t, f) - L_b(t, f)
 \end{equation}
@@ -207,7 +198,7 @@ where $N_f$ is the number of third-octave bands. Here the emergence threshold $\
 
 Table~\ref{table:pearsonc} shows the Pearson's correlation coefficients between the computed indicators and assessed parameters at the sound scene level (n=9). The three globally computed sound levels $L_{50}$, $L_{A50}$ and $L_{50,1kHz}$ represent well the perceived overall loudness of the scene and can be used directly for pleasantness prediction. Ground truth emergences also correlate with the evaluated sound level parameters for all sources but traffic. The perceived time of presence is however represented poorly by both ground truth time of presence and emergence metrics: the source time of presence fails to account for potential masking by other sounds and the long-term emergence does not consider time distribution of activity. The two proposed emergence-based time of presence indicators exhibit better behaviors: they are discriminative and show high correlations with the perception of corresponding sources. This confirms the need of an emergence-based presence indicator to successfully represent heard sources in the scene's mix.
 
-For all sources the perceived time of presence and sound level are highly correlated ($r>0.8, p<0.01$). This is not the case for the corresponding acoustical indicators indicating information redundancy between these two quantities at the perceptual level. As a result one of the two quantity is often omitted in proposed pleasantness models.
+For all sources the perceived time of presence and sound level are highly correlated ($r>0.8, p<0.01$). This is not the case for the corresponding acoustical indicators indicating information redundancy between these two quantities at the perceptual level. As a result one of the two quantities is often omitted in proposed pleasantness models.
 
 \section{Conclusion}
 \label{sec:disc}
@@ -218,43 +209,8 @@ Precision requirements of the postulated physical metrics are also obtained. The
 
 Future work will 1) consider a refined perceptual experiment with a richer soundscape corpus in order to achieve a stronger validation and model design and 2) formulate a complete experimental protocol dedicated to the soundscape characterization task.
 
-% -------------------------------------------------------------------------
-% Either list references using the bibliography style file IEEEtran.bst
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
-%
-% or list them by yourself
-% \begin{thebibliography}{9}
-%
-% \bibitem{dcase2016web}
-%   \url{http://www.cs.tut.fi/sgn/arg/dcase2016/}.
-%
-% \bibitem{IEEEPDFSpec}
-%   {PDF} specification for {IEEE} {X}plore$^{\textregistered}$,
-%   \url{http://www.ieee.org/portal/cms_docs/pubs/confstandards/pdfs/IEEE-PDF-SpecV401.pdf}.
-%
-% \bibitem{PDFOpenSourceTools}
-%   Creating high resolution {PDF} files for book production with
-%   open source tools,
-%   \url{http://www.grassbook.org/neteler/highres_pdf.html}.
-%
-% \bibitem{eWilliams1999}
-% E. Williams, \emph{Fourier Acoustics: Sound Radiation and Nearfield Acoustic
-%   Holography}. London, UK: Academic Press, 1999.
-%
-% \bibitem{ieeecopyright}
-%   \url{http://www.ieee.org/web/publications/rights/copyrightmain.html}.
-%
-% \bibitem{cJones2003}
-% C. Jones, A. Smith, and E. Roberts, ``A sample paper in conference
-%   proceedings,'' in \emph{Proc. IEEE ICASSP}, vol. II, 2003, pp. 803--806.
-%
-% \bibitem{aSmith2000}
-% A. Smith, C. Jones, and E. Roberts, ``A sample paper in journals,''
-%   \emph{IEEE Trans. Signal Process.}, vol. 62, pp. 291--294, Jan. 2000.
-%
-% \end{thebibliography}
-
 
 \end{sloppy}
 \end{document}
