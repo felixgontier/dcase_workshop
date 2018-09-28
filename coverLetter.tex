@@ -1,0 +1,50 @@
+\documentclass[10pt]{article}
+
+\title{Reply to reviewers concerning submission DCASE - 9: "Towards perceptual soundscape characterization using event detection algorithms"}
+
+\begin{document}
+
+\maketitle
+
+As a preamble, we would like to thank the editor and the reviewers for their comments and suggestions. Following these comments, we made several changes to the article, which are summarized here. The next sections list our answers to each of the reviewers’ comments, with references to the revised manuscript (page, column, and paragraph) where appropriate.
+
+
+\section{Answers to Reviewer 5}
+
+\begin{enumerate}
+
+\item \emph{An important work but the main results from Table 1 don't seem to be that strong. The emergence based parameters correlate similarly to the global parameters, in some cases the correlation is stronger but not all cases.}
+
+$\rightarrow$ The proposed emergence based indicators correlate similarly or better to the perceived time of presence, but the main improvement is visible for traffic sources. In our dataset corresponding to real life situations traffic is almost always present, as a result ground truth time of presence shows very little variations across sound scenes and correlates poorly to perceptual assessments. The use of a masking model allows to differenciate the scenes by considering traffic in relation to the global mix. Additionally, the proposed parameters better discriminate betwen sound sources, as seen between traffic and birds. This is now better outlined in Section 3.3.
+
+\item \emph{The proposed idea does make sense but hasn't been sufficiently developed with too much parameter tuning / searching and requires more robust experimental analysis and validation.}
+
+$\rightarrow$ For this pilot study we deliberately considered a basic masking model with only two parameters being optimized on 45 points (9 scenes, 5 sources), each corresponding to 28 perceptual assessments. This is intended as a proof of concept rather than as a final application, and as such our future work includes a study on a richer dataset and more robust model design and validation.
+
+\end{enumerate}
+
+\section{Answers to Reviewer 7}
+
+\begin{enumerate}
+
+\item \emph{The value for threshold alpha found in eq. 2 (alpha = -31 dB) suggests that this is a threshold in the digital domain ([-1,1] full scale) instead of a real SPL threshold. For the reader, this value is basically meaningless when it is unknown at what SPL the samples were being played back to the subjects. In other words, how does this threshold translate to the real world?}
+
+$\rightarrow$ The range of the samples' playback sound levels has been added to the test description (Section 3.1). Section 3.3 has also been updated with an interpretation of the found threshold.
+
+\item \emph{I think it is good that (spectral / simultaneous) masking is taken into account. The model used is basic, but seems to be effective judging from the results. What I am missing a bit here is a comparison with other, state-of-the art masking models (that take temporal masking into account as well, for example). Why was it chosen here to develop an own model?}
+
+$\rightarrow$ This is a pilot experiment relying on relatively few urban sound scenes. A basic masking model was thus chosen as a proof of concept, with 1-2 parameters and a single optimization for all sources. As is now more clearly stated in the conclusion, comparing this work with state-of-the-art models with a richer dataset in terms of scene content and perceptual assessments is part of our future work. Specifically, temporal masking is of particular interest to account for high temporal variations in sound sources such as birdsong and footsteps, which has been used in previous works (see ref. [14]).
+
+\end{enumerate}
+
+\section{Answers to Reviewer 8}
+
+\begin{enumerate}
+
+\item \emph{Although this is just a pilot study but it is interesting and relevant enough to be presented at the workshop. The paper is a bit difficult to read and some technical detail are missing.}
+
+$\rightarrow$ Section 3 has been restructured to facilitate the reader's comprehension. Technical details were also added on the perceptual experiment description (Section 3.1) and the proposed indicators (Section 3.3).
+
+\end{enumerate}
+
+\end{document}
