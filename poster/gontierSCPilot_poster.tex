@@ -5,7 +5,7 @@
 %
 % The a0poster class was created by:
 % Gerlinde Kettl and Matthias Weiser (tex@kettl.de)
-% 
+%
 % This template has been downloaded from:
 % http://www.LaTeXTemplates.com
 %
@@ -36,11 +36,12 @@
 \usepackage{amsfonts, amsmath, amsthm, amssymb} % For math fonts, symbols and environments
 \usepackage{wrapfig} % Allows wrapping text around tables and figures
 \usepackage{bbm}
+\usepackage{smartdiagram}
 
 \begin{document}
 
 %----------------------------------------------------------------------------------------
-%	POSTER HEADER 
+%	POSTER HEADER
 %----------------------------------------------------------------------------------------
 
 % The header is divided into two boxes:
@@ -89,23 +90,39 @@ To validate this important assumption, this paper reports on a perceptual test o
 
 \section*{Perceptual soundscape characterization}
 
-The deterioration of sound quality in urban environments is an increasing concern. In this context, the perception of a soundscape by city dwellers is an essential part of its characterization. Perceptual spaces are constructed that associate the soundscape to subjective parameters. Specifically, the dimension of pleasantness has already been extensively studied through perceptual experiments~\cite{aumond2017}. It is consistently modelled as a function of both the sound scene's overall characteristics (loudness) and source-specific contents, typically the time of presence: 
+The deterioration of \textbf{sound quality in urban} environments is an \textbf{increasing concern}. In this context, the perception of a soundscape by city dwellers is an essential part of its characterization. Perceptual spaces are constructed that associate the soundscape to subjective parameters. Specifically, the dimension of pleasantness has already been extensively studied through perceptual experiments~\cite{aumond2017}. It is consistently modeled as a function of both the sound scene's overall characteristics (loudness) and source-specific contents, typically the time of presence:
 \begin{equation}
 P = aL + \sum_s b_sT_{s,p} + c
 \end{equation}
 
 Although previous studies focus on subjective data, the resulting models hint at the possibility of predicting pleasantness from acoustical indicators.
 
-\begin{center}\vspace{1cm}
-\includegraphics[width=0.65\linewidth]{block.pdf}
-\captionof{figure}{ \color{RoyalBlue} The three suggested levels of metrics to predict soundscape pleasantness. Traffic, voices and birds are considered as having the most influence on pleasantness in past studies.}
-\end{center}\vspace{1cm}
+
+\vspace{1cm}
+
+
+\hyphenpenalty10000
+\exhyphenpenalty10000
+
+\smartdiagramset{
+				 uniform color list=white!60!gray for 3 items,
+				 back arrow disabled=true,
+				 module minimum width=10cm,
+				 }
+				 \smartdiagram[flow diagram:horizontal]{Event detection, perceived time of presence, Pleasantness prediction}
+%	}
+
 
 The corresponding task could thus be formulated as a three-level processing chain. At the first level event detection and source separation algorithms are used to determine the contents of the scene in terms of acoustical properties and source activity. The second level is the estimation of perceived time of presence for each source, for which the relevant time scale is longer. Finally, pleasantness is predicted using the available perceptual models.
 
 %----------------------------------------------------------------------------------------
 %	OBJECTIVES
 %----------------------------------------------------------------------------------------
+
+\begin{center}\vspace{1cm}
+\includegraphics[width=0.65\linewidth]{block.pdf}
+\captionof{figure}{ \color{RoyalBlue} The three suggested levels of metrics to predict soundscape pleasantness. Traffic, voices and birds are considered as having the most influence on pleasantness in past studies.}
+\end{center}
 
 \color{DarkSlateGray} % DarkSlateGray color for the rest of the content
 
@@ -120,13 +137,17 @@ The main contributions of this work are as follows:
 \end{itemize}
 
 \section*{Perceptual validation}
-
-A perceptual experiment is conducted to ensure that the prediction of source-specific perceived time of presence from acoustical data is possible. A corpus of 9 simulated scenes from~\cite{gloaguen2017} is studied in which 5 different sources are active (traffic, birds, horns, voices, footsteps). The questions include 4 general perceptual dimensions and the source-specific time of presence and sound level. 28 sutdents from \'Ecole Centrale de Nantes performed the test. The study generates a perceptual space coherent with the litterature~\cite{axelsson2010}, indicating the relevance of the considered corpus.
-
+ \begin{minipage}[c]{.48\linewidth}
+A perceptual experiment is conducted to ensure that the prediction of source-specific perceived time of presence from acoustical data is possible. A corpus of 9 simulated scenes from~\cite{gloaguen2017} is studied in which 5 different sources are active (traffic, birds, horns, voices, footsteps). The questions include 4 general perceptual dimensions and the source-specific time of presence and sound level. 28 students from \'Ecole Centrale de Nantes performed the test. The study generates a perceptual space coherent with the litterature~\cite{axelsson2010}, indicating the relevance of the considered corpus.
+\end{minipage}
+\hfill
+ \begin{minipage}[c]{.48\linewidth}
 \begin{center}\vspace{1cm}
-\includegraphics[width=0.5\linewidth]{pca.pdf}
+\includegraphics[width=.8\linewidth]{pca.pdf}
 \captionof{figure}{ \color{RoyalBlue} Perceptual space of the study.}
-\end{center}\vspace{1cm}
+\end{center}
+\end{minipage}
+\vspace{1cm}
 
 \section*{Physical indicators}
 

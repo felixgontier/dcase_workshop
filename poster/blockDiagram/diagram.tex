@@ -1,0 +1,166 @@
+\documentclass[]{beamer}
+\usepackage{euscript,amsmath,amssymb,amsfonts,amsthm,epsfig,subfigure,color,graphicx}
+\usepackage[latin1]{inputenc}
+%\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\setcounter{page}{1}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions}
+
+\newsavebox{\mysavebox}
+%\usepackage[autolinebreaks,useliterate]{mcode}
+\usetikzlibrary{arrows,positioning}
+\usepackage{letltxmacro}
+\LetLtxMacro\olditemize\itemize
+\LetLtxMacro\oldenumerate\enumerate
+\usepackage{beamerthemedefault, multimedia, wasysym, amssymb, kpfonts}
+
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arcCot}
+\DeclareMathOperator{\arccsc}{arcCsc}
+\DeclareMathOperator{\arccosh}{arcCosh}
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\arcsech}{arcsech}
+\DeclareMathOperator{\arccsch}{arcCsch}
+\DeclareMathOperator{\arccoth}{arcCoth}
+
+\useoutertheme{smoothbars}
+\useinnertheme[shadow=true]{rounded}
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize items}{\textbf{$\strictfi$}}
+\setbeamertemplate{enumerate items}[circle]
+\setbeamertemplate{section in toc}[circle]
+%\useoutertheme{infolines}
+\definecolor{myColor}{HTML}{E9CFEC}
+\setbeamercolor{block title}{bg=green}
+
+\definecolor{violet}{rgb}{0.8, 0.6, 0.8}
+\definecolor{green}{rgb}{0.8 ,.9, 0.8}
+\definecolor{blue}{rgb}{0.3, 0 ,0.6}
+
+\newcommand{\includesound}[1]{
+\movie[]%
+{\structure{\includegraphics[keepaspectratio,width=.5cm]{figures/play}}}{#1}}
+
+\newcommand{\topright}[1]{
+\begin{tikzpicture}[remember picture,overlay]
+  \node [xshift=-2cm,yshift=-2cm] at (current page.north east)
+  {#1};
+\end{tikzpicture}
+}
+
+% footnote without numbers
+\let\oldfootnote\footnote
+\renewcommand\footnote[1]{\let\thefootnote\relax%
+\oldfootnote{#1}}
+
+% title, url, authors, extensions
+\newcommand\citenote[4]{\footnote{#3 \href{#2}{\structure{#1}} #4}}
+
+%\usecolortheme[named=purple]{structure}
+
+\title[PDS]{\LARGE \bf Music and Data}
+\subtitle{}
+
+\author{Mathieu Lagrange \includesound{sounds/hello.wav} \citenote{https://github.com/mathieulagrange/musnu}{https://github.com/mathieulagrange/musnu}{Course website:}{}}
+
+
+\begin{document}
+% Update itemize to have a default overlay
+%\renewcommand{\itemize}[1][<+(1)->]{\olditemize[#1]}
+%\renewcommand{\enumerate}[1][<+(1)->]{\oldenumerate[#1]}
+
+%\includeonlyframes{current}
+
+
+%\includeonlyframes{current}
+
+          \begin{frame}{Data}
+            \hyphenpenalty10000
+\exhyphenpenalty10000
+
+            \smartdiagramset{
+                     uniform color list=white!60!gray for 3 items,
+                     back arrow disabled=true,
+                     module minimum width=10cm,
+                     }
+                     \smartdiagram[flow diagram:horizontal]{Event detection, perceived time of presence, Pleasantness prediction}
+          \end{frame}
+
+          \end{document}
+
+          Collaborative filtering
+
+          %-------------------------------------------------------
+
+          Content based filtering
+
+          \begin{frame}{Data}
+            \smartdiagramset{
+                     uniform color list=white!60!gray for 3 items,
+                     back arrow disabled=true}
+                     \smartdiagram[flow diagram:horizontal]{Event detection, perceived time of presence, Pleasantness prediction}
+          \end{frame}
+
+
+          \citenote{}{}{}{}
+
+          \begin{frame}{}
+            \begin{itemize}
+              \item
+              \item
+            \end{itemize}
+          \end{frame}
+
+          \begin{frame}{}
+            \begin{itemize}
+              \item
+              \item
+              \item
+            \end{itemize}
+          \end{frame}
+
+          \begin{frame}{Figure}
+            \begin{center}
+              \includegraphics[width=.6\columnwidth]{figures/play} \\
+            \end{center}
+          \end{frame}
+
+          \begin{frame}{Block}
+            \begin{block}{title}
+              \begin{itemize}
+                \item
+                \item
+                \item
+              \end{itemize}
+            \end{block}
+          \end{frame}
+
+
+          \begin{frame}{Itemize}
+            \begin{itemize}
+              \item
+              \item
+              \item
+            \end{itemize}
+          \end{frame}
+
+          \begin{frame}{Special}
+            \structure{Hey}: ..
+            \begin{itemize}
+              \item[+]
+              \item[--]
+            \end{itemize}
+            \citenote{title}{http://www.google.com}{author}{infos}
+          \end{frame}
+
+
+
+          \end{document}
