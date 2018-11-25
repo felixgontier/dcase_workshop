@@ -74,9 +74,9 @@
 
 \begin{abstract}
 
-Assessing properties about specific sound sources is important to  characterize better the perception of urban sound environments. In order to produce perceptually motivated noise maps, we argue that it is possible to consider the data produced by acoustic sensor networks to gather information about sources of interest and predict their perceptual attributes.
+Assessing properties about specific sound sources is important to characterize better the perception of urban sound environments. In order to produce \textbf{perceptually motivated noise maps}, we argue that it is possible to consider the data produced by acoustic \textbf{sensor networks} to gather information about sources of interest and predict their perceptual attributes.
 
-To validate this important assumption, this paper reports on a perceptual test on simulated sound scenes for which both perceptual and acoustic source properties are known. Results show that it is indeed feasible to predict perceptual source-specific quantities of interest from recordings, leading to the introduction of two predictors of perceptual judgments from acoustic data. The use of those predictors in the new task of automatic soundscape characterization is finally discussed.
+To \textbf{validate} this important assumption, this paper reports on a \textbf{perceptual test} on simulated sound scenes for which both perceptual and acoustic source properties are known. Results show that it is indeed feasible to predict perceptual source-specific quantities of interest from recordings, leading to the introduction of two predictors of perceptual judgments from acoustic data. The use of those predictors in the new task of \textbf{automatic soundscape characterization} is finally discussed.
 
 \end{abstract}
 
@@ -90,7 +90,7 @@ To validate this important assumption, this paper reports on a perceptual test o
 
 \section*{Perceptual soundscape characterization}
 
-The deterioration of \textbf{sound quality in urban} environments is an \textbf{increasing concern}. In this context, the perception of a soundscape by city dwellers is an essential part of its characterization. Perceptual spaces are constructed that associate the soundscape to subjective parameters. Specifically, the dimension of pleasantness has already been extensively studied through perceptual experiments~\cite{aumond2017}. It is consistently modeled as a function of both the sound scene's overall characteristics (loudness) and source-specific contents, typically the time of presence:
+The deterioration of \textbf{sound quality in urban} environments is an \textbf{increasing concern}. In this context, the \textbf{perception of a soundscape} by city dwellers is an essential part of its characterization. Perceptual spaces are constructed that associate the soundscape to subjective parameters. Specifically, the dimension of \textbf{pleasantness} has already been extensively studied through perceptual experiments~\cite{aumond2017}. It is consistently modeled as a function of both the sound scene's \textbf{overall characteristics} (loudness) and \textbf{source-specific contents}, typically the time of presence:
 \begin{equation}
 P = aL + \sum_s b_sT_{s,p} + c
 \end{equation}
@@ -103,17 +103,20 @@ Although previous studies focus on subjective data, the resulting models hint at
 
 \hyphenpenalty10000
 \exhyphenpenalty10000
+\begin{center}
 
 \smartdiagramset{
 				 uniform color list=white!60!gray for 3 items,
 				 back arrow disabled=true,
-				 module minimum width=10cm,
+				 module x sep=12,
+				 text width=5cm,
 				 }
-				 \smartdiagram[flow diagram:horizontal]{Event detection, perceived time of presence, Pleasantness prediction}
+				 \smartdiagram[flow diagram:horizontal]{Event detection, Perceived time of presence, Pleasantness prediction}
 %	}
+\end{center}
+\vspace{1cm}
 
-
-The corresponding task could thus be formulated as a three-level processing chain. At the first level event detection and source separation algorithms are used to determine the contents of the scene in terms of acoustical properties and source activity. The second level is the estimation of perceived time of presence for each source, for which the relevant time scale is longer. Finally, pleasantness is predicted using the available perceptual models.
+The corresponding task could thus be formulated as a \textbf{three-level processing chain}. At the first level \textbf{event detection and source separation} algorithms are used to determine the contents of the scene in terms of acoustical properties and source activity. The second level is the estimation of \textbf{perceived time of presence} for each source, for which the relevant time scale is longer. Finally, \textbf{pleasantness} is predicted using the available perceptual models.
 
 %----------------------------------------------------------------------------------------
 %	OBJECTIVES
@@ -138,7 +141,7 @@ The main contributions of this work are as follows:
 
 \section*{Perceptual validation}
  \begin{minipage}[c]{.48\linewidth}
-A perceptual experiment is conducted to ensure that the prediction of source-specific perceived time of presence from acoustical data is possible. A corpus of 9 simulated scenes from~\cite{gloaguen2017} is studied in which 5 different sources are active (traffic, birds, horns, voices, footsteps). The questions include 4 general perceptual dimensions and the source-specific time of presence and sound level. 28 students from \'Ecole Centrale de Nantes performed the test. The study generates a perceptual space coherent with the litterature~\cite{axelsson2010}, indicating the relevance of the considered corpus.
+A perceptual experiment is conducted to ensure that the prediction of source-specific perceived time of presence from acoustical data is possible. A corpus of \textbf{9 simulated scenes} from~\cite{gloaguen2017} is studied in which 5 different sources are active (\textbf{traffic, birds, horns, voices, footsteps}). The questions include 4 general perceptual dimensions and the source-specific time of presence and sound level. 28 students from \'Ecole Centrale de Nantes performed the test. The study generates a \textbf{perceptual space} coherent with the litterature~\cite{axelsson2010}, indicating the relevance of the considered corpus.
 \end{minipage}
 \hfill
  \begin{minipage}[c]{.48\linewidth}
@@ -152,9 +155,9 @@ A perceptual experiment is conducted to ensure that the prediction of source-spe
 \section*{Physical indicators}
 
 
-Global sound levels $L_{50}$, $L_{A50}$ and $L_{50, 1kHz}$ are considered as they represent well the scene's perceived overall loudness~\cite{aumond2017}. As simulated scenes are studied the ground truth source contributions are available. The time of presence and an emergence metric ($L_{10, source}-L_{90, global}$) are computed per source from the separated audio file.
+Global sound levels $L_{50}$, $L_{A50}$ and $L_{50, 1kHz}$ are considered as they represent well the scene's perceived overall loudness~\cite{aumond2017}. As simulated scenes are studied the \textbf{ground truth source contributions} are available. The time of presence and an emergence metric ($L_{10, source}-L_{90, global}$) are computed per source from the separated audio file.
 
-To account for masking effects, two additional indicators are proposed that respectively consider overall and frequency-wise source emergence over time frames to approximate the corresponding perceived time of presence:
+To account for \textbf{masking effects}, two additional indicators are proposed that respectively consider \textbf{overall} and \textbf{frequency-wise source emergence} over time frames to approximate the corresponding perceived time of presence:
 
 \begin{align}
 T_s(\alpha) &= \frac{1}{N_t}\sum_{t = 1}^{N_t}\mathbbm{1}_{L_s(t) - L_b(t)>\alpha} \\
@@ -165,9 +168,9 @@ The optimization of parameters $\alpha$ and $\beta$ is done via grid search on t
 
 \section*{Results}
 
-Globally computed sound levels represent very well the perceived overall loudness ($r>0.95$, $p<0.01$). The ground truth source-specific time of presence and emergence achieve good results for most sources. However they fail to describe traffic activity, which is present in the background of most scenes but can be masked by more emergent sources. The use of metrics considering each source independantly from one another is thus not sufficient.
+Globally computed sound levels represent very well the perceived overall loudness ($r>0.95$, $p<0.01$). The ground truth \textbf{source-specific time of presence and emergence} achieve good results for most sources. However they \textbf{fail to describe traffic activity}, which is present in the background of most scenes but can be masked by more emergent sources. The use of metrics considering each source independantly from one another is thus not sufficient.
 
-The proposed binary masking models solve this problem as an active source can be considered unheard in the mix. They correlate consistently well with the perceived time of presence, and successfully discriminate between sources such as traffic and birds, which are commonly correlated in real-life conditions.
+The proposed \textbf{binary masking models} solve this problem as an active source can be considered unheard in the mix. They \textbf{correlate consistently} well with the perceived time of presence, and successfully \textbf{discriminate} between sources such as traffic and birds, which are commonly correlated in real-life conditions.
 
 \begin{center}\vspace{1cm}
 \label{table:pearsonc}
@@ -210,7 +213,7 @@ The proposed binary masking models solve this problem as an active source can be
 
 \section*{Conclusions}
 
-A binary masking model is proposed that relies on the time of presence and emergence of sources. It is shown to correlate well with perceptual time of presence equivalents. Pleasantness prediction in urban soundscapes task can thus be formulated as a detection and classification task. Furthermore, low time resolutions compared to traditional event detection algorithms are sufficient to capture the information at the perceptual level.
+A \textbf{binary masking model} is proposed that relies on the time of presence and emergence of sources. It is shown to correlate well with perceptual time of presence equivalents. \textbf{Pleasantness prediction} in urban soundscapes task can thus be formulated as a \textbf{detection} and \textbf{classification} task. Furthermore, \textbf{low time resolutions} compared to traditional event detection algorithms are sufficient to capture the information at the perceptual level.
 
 
 
@@ -222,13 +225,13 @@ A binary masking model is proposed that relies on the time of presence and emerg
 
 \section*{Forthcoming Research}
 
-Our future work includes conducting a refined perceptual experiment with the following considerations:
+Our future work includes conducting a \textbf{refined perceptual experiment} with the following considerations:
 \begin{itemize}
-\item A richer corpus should be studied, that is not limited to real-life conditions but includes more diverse source contributions,
-\item State-of-the-art masking models should be compared to the proposed indicators,
-\item Quantities of interest should be predicted from recordings through detection or source separation algorithms.
+\item A \textbf{richer corpus} should be studied, that is not limited to real-life conditions but includes more diverse source contributions,
+\item \textbf{State-of-the-art masking models} should be compared to the proposed indicators,
+\item Quantities of interest should be predicted from recordings through \textbf{detection} or \textbf{source separation} algorithms.
 \end{itemize}
-The final objective is the formulation of a complete experimental protocol for pleasantness prediction with respect to the experimental results.
+The final objective is the formulation of a \textbf{complete experimental protocol for pleasantness prediction} with respect to the experimental results.
 
 
 
